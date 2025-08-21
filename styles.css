@@ -1,41 +1,38 @@
-/* styles.css */
+/* Reset + full-height grey */
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
 body {
-  background-color: #f5f5f5;       /* soft grey */
-  font-family: 'Lato', sans-serif;
+  background: #f5f5f5;      /* soft grey */
+  font-family: system-ui, -apple-system, Arial, sans-serif;
+  color: #6a5acd;           /* soft purple text */
+}
+
+/* Centre the quiz */
+.wrap {
+  min-height: 100%;
+  display: flex;
+  align-items: center;      /* vertical centre */
+  justify-content: center;  /* horizontal centre */
+  padding: 24px;
+}
+.card {
+  background: #fff;
+  color: #2e2e2e;           /* readable body text */
+  padding: 24px 28px;
+  border: 1px solid #e7e7e7;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
   text-align: center;
-  margin: 40px;
-  color: #6a5acd;                  /* soft purple text */
 }
 
-h1 {
-  font-size: 28px;
-  margin-bottom: 20px;
-}
-
+h1 { margin: 0 0 12px; color: #6a5acd; }
 input, button {
-  padding: 10px 14px;
-  font-size: 16px;
-  margin: 5px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  padding: 10px 14px; font-size: 16px; margin: 6px;
+  border: 1px solid #ccc; border-radius: 6px;
 }
+button { background: #6a5acd; color: #fff; cursor: pointer; border: none; }
+button:disabled { background: #ccc; cursor: not-allowed; }
+#result { margin-top: 12px; font-weight: 600; min-height: 1.2em; }
+.ok { color: #188038; }  /* green */
+.bad{ color: #c5221f; }  /* red */
 
-button {
-  background-color: #6a5acd;
-  color: white;
-  cursor: pointer;
-}
-
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-#result {
-  margin-top: 12px;
-  font-weight: 600;
-  min-height: 1.2em;
-}
-
-.ok { color: #188038; }   /* green */
-.bad { color: #c5221f; }  /* red */
