@@ -1,54 +1,106 @@
-/* Reset + full-height grey */
+/* Global reset + base */
 * { box-sizing: border-box; }
 html, body { height: 100%; margin: 0; }
-body {
-  background: #f5f5f5;      /* soft grey */
-  font-family: system-ui, -apple-system, Arial, sans-serif;
-  color: #6a5acd;           /* soft purple text */
+
+:root {
+  --bg: #f5f5f5;     /* soft grey */
+  --text: #2e2e2e;   /* body text */
+  --accent: #6a5acd; /* baby/soft purple */
+  --ok: #188038;     /* green for correct */
+  --bad: #c5221f;    /* red for wrong */
+  --radius: 12px;
 }
 
-/* Centre the quiz */
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, Arial, sans-serif;
+  line-height: 1.6;
+}
+
+/* Centered layout */
 .wrap {
   min-height: 100%;
   display: flex;
-  align-items: center;      /* vertical centre */
-  justify-content: center;  /* horizontal centre */
+  align-items: center;
+  justify-content: center;
   padding: 24px;
 }
+
 .card {
+  position: relative;             /* for the home icon */
   background: #fff;
-  color: #2e2e2e;           /* readable body text */
   padding: 24px 28px;
   border: 1px solid #e7e7e7;
-  border-radius: 12px;
+  border-radius: var(--radius);
   box-shadow: 0 2px 10px rgba(0,0,0,0.05);
   text-align: center;
+  max-width: 560px;
+  width: 100%;
 }
 
-h1 { margin: 0 0 12px; color: #6a5acd; }
-input, button {
-  padding: 10px 14px; font-size: 16px; margin: 6px;
-  border: 1px solid #ccc; border-radius: 6px;
-}
-button { background: #6a5acd; color: #fff; cursor: pointer; border: none; }
-button:disabled { background: #ccc; cursor: not-allowed; }
-#result { margin-top: 12px; font-weight: 600; min-height: 1.2em; }
-.ok { color: #188038; }  /* green */
-.bad{ color: #c5221f; }  /* red */
-/* Make card a positioning context for the home icon */
-.card { position: relative; }
-
-/* Home icon link (top-left inside the card) */
+/* Home icon in top-left of the card */
 .home-link {
-  position: absolute; top: 10px; left: 10px;
-  text-decoration: none; font-size: 20px; line-height: 1;
+  position: absolute;
+  top: 10px; left: 10px;
+  text-decoration: none;
+  font-size: 20px; line-height: 1;
   filter: grayscale(0.2);
 }
 .home-link:hover { filter: none; }
 
-/* Ensure inputs/buttons look tidy in this layout */
+/* Headings & text */
+h1 { margin: 0 0 12px; color: var(--accent); }
+p { margin: 8px 0; }
+
+/* Inputs & button */
+input, button {
+  font-size: 16px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-top: 6px;
+}
+
+input {
+  border: 1px solid #ccc;
+  width: min(320px, 90%);
+}
+
+button {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+button:hover { filter: brightness(0.95); }
+button:disabled { background: #ccc; cursor: not-allowed; }
+
 #result { margin-top: 12px; font-weight: 600; min-height: 1.2em; }
-input, button { padding: 10px 14px; font-size: 16px; margin-top: 6px; }
-.ok { color: #188038; }
-.bad { color: #c5221f; }
+.ok  { color: var(--ok); }
+.bad { color: var(--bad); }
+
+/* Homepage menu buttons */
+.menu {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+.btn {
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+}
+.btn:hover { filter: brightness(0.95); }
+
+/* Small screens */
+@media (max-width: 420px) {
+  .card { padding: 20px; }
+  input { width: 100%; }
+}
 
