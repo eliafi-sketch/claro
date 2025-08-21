@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Direct Object Pronouns Quiz</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Direct Object Pronouns Quiz</h1>
+      <p id="question"></p>
+      <input id="answer" placeholder="Type in Spanish" autocomplete="off" />
+      <button id="submit">Submit</button>
+      <div id="result"></div>
+      <button id="next" disabled>Next</button>
+    </div>
+  </div>
+
+  <script>
+    const qs = [
+      {en:"I see him", es:"lo veo"},
+      {en:"I see her", es:"la veo"},
+      {en:"I see them (masc.)", es:"los veo"},
+      {en:"I see them (fem.)", es:"las veo"},
+      {en:"He sees me", es:"me ve"},
+      {en:"She sees you (informal)", es:"te ve"},
+      {en:"We see it (masc.)", es:"lo vemos"},
+      {en:"We see it (fem.)", es:"la vemos"},
+      {en:"They see us", es:"nos ven"},
+      {en:"I see you all", es:"los veo"}
+    ];
+
+    const norm = s => s.trim().toLowerCase();
+    const q = document.getElementById('question');
+    const a = document.getElementById('answer');
+    const r = document.getElementById('result');
+    const submitBtn = document.getElementById('submit');
+    const nextBtn = document.getElementById('next');
+
+    let i = 0;
+    let checked = false;
+    let score = 0;
+
+    function showQuestion() {
+      q.textContent = `Translate: ${qs[i].en}`;
+      a.value = ""; a.disabled = false; a.focus();
+      r.textContent = ""; r.className = "";
+      checked = false;
+      nextBtn.disabled = true;
+    }
+
+    function check() {
+      if (checked) return;
+      const user = norm(a.value);
+      const correct = qs[i].es;
+      if (!user) return;
+
+      if (user === correct) {
+        r.textContent = "✅ Correct!";
+        r.className = "ok";
+        score++;
+      } else {
+        r.textContent = `❌ It’s “${correct}”`;
+        r.className = "bad";
+      }
+      checked = true;
+      nextBtn.disabled = false;
+      a.disabled = true;
+    }
+
+    function next() {
+      if (!checked) return;
+      i++;
+      if (i >= qs.length) {
+        q.textContent = "🎉 Quiz complete!";
+        r.textContent = `Your score: ${score} / ${qs.length}`;
+        r.className = "";
+        a.style.display = "none";
+        submitBtn.style.display = "none";
+        nextBtn.textContent = "Restart";
+        nextBtn.disabled = false;
+        nextBtn.onclick = () => location.reload();
+        return;
+      }
+      showQuestion();
+    }
+
+    submitBtn.onclick = check;
+    nextBtn.onclick = next;
+    a.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (!checked) {
+          check();
+        } else {
+          next();
+        }
+      }
+    });
+
+    showQuestion();
+  </script>
+</body>
+</html>
