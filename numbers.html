@@ -9,12 +9,13 @@
 <body>
   <div class="wrap">
     <div class="card">
+      <a class="home-link" href="index.html" aria-label="Home">🏠</a>
+
       <h1>Spanish Numbers 1–10</h1>
       <p id="question"></p>
       <input id="answer" placeholder="Type in Spanish" autocomplete="off" />
-      <button id="submit">Submit</button>
       <div id="result"></div>
-      <button id="next" disabled>Next</button>
+      <button id="action">Submit</button>
     </div>
   </div>
 
@@ -30,8 +31,7 @@
     const q = document.getElementById('question');
     const a = document.getElementById('answer');
     const r = document.getElementById('result');
-    const submitBtn = document.getElementById('submit');
-    const nextBtn = document.getElementById('next');
+    const btn = document.getElementById('action');
 
     let i = 0;
     let checked = false;
@@ -39,17 +39,20 @@
 
     function showQuestion() {
       q.textContent = `Translate: ${qs[i].en}`;
-      a.value = ""; a.disabled = false; a.focus();
-      r.textContent = ""; r.className = "";
+      a.value = "";
+      a.disabled = false;
+      a.focus();
+      r.textContent = "";
+      r.className = "";
       checked = false;
-      nextBtn.disabled = true;
+      btn.textContent = "Submit";
     }
 
     function check() {
-      if (checked) return;
+      if (checked) { next(); return; } // if already checked, act as Next
       const user = norm(a.value);
-      const correct = qs[i].es;
       if (!user) return;
+      const correct = qs[i].es;
 
       if (user === correct) {
         r.textContent = "✅ Correct!";
@@ -60,8 +63,8 @@
         r.className = "bad";
       }
       checked = true;
-      nextBtn.disabled = false;
       a.disabled = true;
+      btn.textContent = (i === qs.length - 1) ? "Finish" : "Next";
     }
 
     function next() {
@@ -72,24 +75,19 @@
         r.textContent = `Your score: ${score} / ${qs.length}`;
         r.className = "";
         a.style.display = "none";
-        submitBtn.style.display = "none";
-        nextBtn.textContent = "Restart";
-        nextBtn.disabled = false;
-        nextBtn.onclick = () => location.reload();
+        btn.textContent = "Restart";
+        btn.onclick = () => location.reload();
         return;
       }
       showQuestion();
     }
 
-    submitBtn.onclick = check;
-    nextBtn.onclick = next;
-
-    // Enter: acts as submit first, then next
-    a.addEventListener('keydown', e => {
+    // Button + Enter behaviour
+    btn.onclick = check;
+    a.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         e.preventDefault();
-        if (!checked) check();
-        else next();
+        check(); // Submit first; after feedback it acts as Next
       }
     });
 
@@ -97,4 +95,3 @@
   </script>
 </body>
 </html>
-
