@@ -1,67 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Spanish Numbers Quiz</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="UTF-8" />
+  <title>Spanish Numbers 1–10</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
-    body { font-family: system-ui, Arial, sans-serif; text-align: center; margin: 40px; }
-    #result { margin-top: 12px; font-weight: 600; }
-    input, button { padding: 10px 14px; font-size: 16px; }
-    button { margin-left: 6px; }
+    body { font-family: system-ui, Arial, sans-serif; text-align:center; margin:40px; }
+    #result { margin-top:12px; font-weight:600; min-height:1.2em; }
+    .ok { color:#188038; }  /* green */
+    .bad{ color:#c5221f; }  /* red   */
+    input,button{ padding:10px 14px; font-size:16px; }
+    button{ margin-left:6px; }
+    #next{ margin-top:12px; }
   </style>
 </head>
 <body>
   <h1>Spanish Numbers 1–10</h1>
   <p id="question"></p>
-  <input type="text" id="answer" placeholder="Type in Spanish">
+  <input id="answer" placeholder="Type in Spanish" autocomplete="off" />
   <button id="submit">Submit</button>
-  <p id="result"></p>
-  <button id="next">Next</button>
+  <div id="result"></div>
+  <button id="next" disabled>Next</button>
 
   <script>
-    const questions = [
-      {en: "1", es: "uno"}, {en: "2", es: "dos"}, {en: "3", es: "tres"},
-      {en: "4", es: "cuatro"}, {en: "5", es: "cinco"}, {en: "6", es: "seis"},
-      {en: "7", es: "siete"}, {en: "8", es: "ocho"}, {en: "9", es: "nueve"},
-      {en: "10", es: "diez"}
+    const qs = [
+      {en:"1", es:"uno"}, {en:"2", es:"dos"}, {en:"3", es:"tres"},
+      {en:"4", es:"cuatro"}, {en:"5", es:"cinco"}, {en:"6", es:"seis"},
+      {en:"7", es:"siete"}, {en:"8", es:"ocho"}, {en:"9", es:"nueve"},
+      {en:"10", es:"diez"}
     ];
 
-    let i = 0;
+    const norm = s => s.trim().toLowerCase();
     const q = document.getElementById('question');
     const a = document.getElementById('answer');
     const r = document.getElementById('result');
     const submitBtn = document.getElementById('submit');
     const nextBtn = document.getElementById('next');
 
+    let i = 0;
+    let checked = false;
+    let score = 0;
+
     function showQuestion() {
-      q.textContent = `Translate: ${questions[i].en}`;
-      a.value = ""; r.textContent = ""; a.focus();
+      q.textContent = `Translate: ${qs[i].en}`;
+      a.value = ""; a.disabled = false; a.focus();
+      r.textContent = ""; r.className = "";
+      checked = false;
+      nextBtn.disabled = true;
     }
 
     function check() {
-      const user = a.value.trim().toLowerCase();
-      const correct = questions[i].es;
-      r.textContent = (user === correct) ? "✅ Correct!" : `❌ It’s “${correct}”`;
+      if (checked) return;
+      const user = norm(a.value);
+      const correct = qs[i].es;
+      if (!user) return;
+
+      if (user === correct) {
+        r.textContent = "✅ Correct!";
+        r.className = "ok";
+        score++;
+      } else {
+        r.textContent = `❌ It’s “${correct}”`;
+        r.className = "bad";
+      }
+      checked = true;
+      nextBtn.disabled = false;
+      a.disabled = true;
     }
 
     function next() {
+      if (!checked) return;
       i++;
-      if (i >= questions.length) {
-        q.textContent = "🎉 All done!";
-        a.style.display = "none"; submitBtn.style.display = "none";
-        nextBtn.textContent = "Restart"; nextBtn.onclick = () => location.reload();
-      } else {
-        showQuestion();
+      if (i >= qs.length) {
+        q.textContent = "🎉 Quiz complete!";
+        r.textContent = `Your score: ${score} / ${qs.length}`;
+        r.className = "";
+        a.style.display = "none";
+        submitBtn.style.display = "none";
+        nextBtn.textContent = "Restart";
+        nextBtn.disabled = false;
+        nextBtn.onclick = () => location.reload();
+        return;
       }
+      showQuestion();
     }
 
     submitBtn.onclick = check;
     nextBtn.onclick = next;
-    a.addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
+    a.addEventListener('keydown', e => {
+      if (e.key === 'Enter') { e.preventDefault(); check(); }
+    });
 
     showQuestion();
   </script>
 </body>
 </html>
-
