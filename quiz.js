@@ -112,4 +112,20 @@ async function main(){
 }
 
 main();
+// Show questions on the page
+function showSession(sessionQs) {
+  const container = document.getElementById("quiz");
+  container.innerHTML = ""; // clear old questions
+
+  sessionQs.forEach(q => {
+    const div = document.createElement("div");
+    div.textContent = q.en + " → ?";
+    container.appendChild(div);
+  });
+}
+
+// Example run
+let sessionNum = 0;
+let session = generateSession(1, sessionNum);
+showSession(session);
 
