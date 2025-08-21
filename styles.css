@@ -35,4 +35,20 @@ button:disabled { background: #ccc; cursor: not-allowed; }
 #result { margin-top: 12px; font-weight: 600; min-height: 1.2em; }
 .ok { color: #188038; }  /* green */
 .bad{ color: #c5221f; }  /* red */
+/* Make card a positioning context for the home icon */
+.card { position: relative; }
+
+/* Home icon link (top-left inside the card) */
+.home-link {
+  position: absolute; top: 10px; left: 10px;
+  text-decoration: none; font-size: 20px; line-height: 1;
+  filter: grayscale(0.2);
+}
+.home-link:hover { filter: none; }
+
+/* Ensure inputs/buttons look tidy in this layout */
+#result { margin-top: 12px; font-weight: 600; min-height: 1.2em; }
+input, button { padding: 10px 14px; font-size: 16px; margin-top: 6px; }
+.ok { color: #188038; }
+.bad { color: #c5221f; }
 
