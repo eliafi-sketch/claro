@@ -7,12 +7,16 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Spanish Numbers 1–10</h1>
-  <p id="question"></p>
-  <input id="answer" placeholder="Type in Spanish" autocomplete="off" />
-  <button id="submit">Submit</button>
-  <div id="result"></div>
-  <button id="next" disabled>Next</button>
+  <div class="wrap">
+    <div class="card">
+      <h1>Spanish Numbers 1–10</h1>
+      <p id="question"></p>
+      <input id="answer" placeholder="Type in Spanish" autocomplete="off" />
+      <button id="submit">Submit</button>
+      <div id="result"></div>
+      <button id="next" disabled>Next</button>
+    </div>
+  </div>
 
   <script>
     const qs = [
@@ -79,8 +83,14 @@
 
     submitBtn.onclick = check;
     nextBtn.onclick = next;
+
+    // Enter: acts as submit first, then next
     a.addEventListener('keydown', e => {
-      if (e.key === 'Enter') { e.preventDefault(); check(); }
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (!checked) check();
+        else next();
+      }
     });
 
     showQuestion();
